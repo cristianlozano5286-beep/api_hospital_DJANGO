@@ -1,0 +1,16 @@
+# ── Framework principal ───────────────────────────────────────
+Django==5.0.6
+djangorestframework==3.15.2
+
+# ── Base de datos ─────────────────────────────────────────────
+psycopg2-binary==2.9.9          # Driver PostgreSQL
+
+# ── Variables de entorno ──────────────────────────────────────
+python-decouple==3.8
+
+# ── Documentación OpenAPI / Swagger ──────────────────────────
+drf-spectacular==0.27.2
+
+# ── Herramientas de desarrollo (opcional) ─────────────────────
+# django-extensions==3.2.3
+# ipython==8.25.0
