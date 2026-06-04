@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
-
+from apps.utils.mixins import ExportPDFMixin
 from .models import Cita
 from .serializers import CitaSerializer
 
@@ -14,8 +14,9 @@ from .serializers import CitaSerializer
     update=extend_schema(summary='Actualizar cita', tags=['Citas']),
     partial_update=extend_schema(summary='Actualizar parcialmente cita', tags=['Citas']),
     destroy=extend_schema(summary='Cancelar/desactivar cita', tags=['Citas']),
+    exportar_pdf=extend_schema(summary="Exportar a PDF", tags=['Citas']),
 )
-class CitaViewSet(viewsets.ModelViewSet):
+class CitaViewSet(ExportPDFMixin, viewsets.ModelViewSet):
     serializer_class = CitaSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['paciente__nombres', 'paciente__apellidos', 'medico__nombres', 'estado']

@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
-
+from apps.utils.mixins import ExportPDFMixin
 from .models import Medicamento
 from .serializers import MedicamentoSerializer
 
@@ -14,8 +14,9 @@ from .serializers import MedicamentoSerializer
     update=extend_schema(summary='Actualizar medicamento', tags=['Medicamentos']),
     partial_update=extend_schema(summary='Actualizar parcialmente medicamento', tags=['Medicamentos']),
     destroy=extend_schema(summary='Desactivar medicamento', tags=['Medicamentos']),
+    exportar_pdf=extend_schema(summary="Exportar a PDF", tags=['Medicamentos']),
 )
-class MedicamentoViewSet(viewsets.ModelViewSet):
+class MedicamentoViewSet(ExportPDFMixin, viewsets.ModelViewSet):
     serializer_class = MedicamentoSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['nombre_generico', 'nombre_comercial', 'codigo_registro', 'laboratorio']

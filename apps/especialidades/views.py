@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
-
+from apps.utils.mixins import ExportPDFMixin
 from .models import Especialidad
 from .serializers import EspecialidadSerializer
 
@@ -14,8 +14,9 @@ from .serializers import EspecialidadSerializer
     update=extend_schema(summary='Actualizar especialidad', tags=['Especialidades']),
     partial_update=extend_schema(summary='Actualizar parcialmente especialidad', tags=['Especialidades']),
     destroy=extend_schema(summary='Eliminar especialidad', tags=['Especialidades']),
+    exportar_pdf=extend_schema(summary="Exportar a PDF", tags=['Especialidades']),
 )
-class EspecialidadViewSet(viewsets.ModelViewSet):
+class EspecialidadViewSet(ExportPDFMixin, viewsets.ModelViewSet):
     """CRUD completo para especialidades médicas."""
 
     serializer_class = EspecialidadSerializer

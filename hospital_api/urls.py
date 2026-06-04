@@ -2,11 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-# 1. Creamos la vista que lista las rutas
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
@@ -20,29 +18,24 @@ def api_root(request, format=None):
         'tratamientos': request.build_absolute_uri('tratamientos/'),
     })
 
-API_PREFIX = 'api/'
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Docs...
+    
+    # Rutas de API y Documentación
+    path('api/', api_root),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    # 2. Ruta raíz que muestra la lista de apps
-    path(API_PREFIX, api_root), 
-
-    # 3. Tus rutas existentes
-    path(API_PREFIX, include([
-        path('citas/', include('apps.citas.urls')),
-        path('especialidades/', include('apps.especialidades.urls')),
-        path('facturas/', include('apps.facturas.urls')),
-        path('medicamentos/', include('apps.medicamentos.urls')),
-        path('medicos/', include('apps.medicos.urls')),
-        path('pacientes/', include('apps.pacientes.urls')),
-        path('pagos/', include('apps.pagos.urls')),
-        path('tratamientos/', include('apps.tratamientos.urls')),
-    ])),
+    # Rutas de las Apps (sin prefijo duplicado)
+    path('api/citas/', include('apps.citas.urls')),
+    path('api/especialidades/', include('apps.especialidades.urls')),
+    path('api/facturas/', include('apps.facturas.urls')),
+    path('api/medicamentos/', include('apps.medicamentos.urls')),
+    path('api/medicos/', include('apps.medicos.urls')),
+    path('api/pacientes/', include('apps.pacientes.urls')),
+    path('api/pagos/', include('apps.pagos.urls')),
+    path('api/tratamientos/', include('apps.tratamientos.urls')),
 ]
