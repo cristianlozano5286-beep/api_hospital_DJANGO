@@ -5,6 +5,7 @@ Django settings for Sistema de Gestión Hospitalaria
 import os
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,6 +27,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'drf_spectacular',
+    'rest_framework_simplejwt',
 ]
 
 LOCAL_APPS = [
@@ -121,6 +123,12 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 # drf-spectacular (OpenAPI / Swagger)
@@ -144,4 +152,10 @@ SPECTACULAR_SETTINGS = {
         {'name': 'Facturas', 'description': 'Facturación de servicios'},
         {'name': 'Pagos', 'description': 'Registro de pagos'},
     ],
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
 }
