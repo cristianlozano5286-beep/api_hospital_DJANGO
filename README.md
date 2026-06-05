@@ -1,3 +1,4 @@
+
 # 🏥 API Sistema de Gestión Hospitalaria
 
 API REST construida con **Django 5**, **Django REST Framework** y **PostgreSQL** para la gestión integral de una clínica: pacientes, médicos, especialidades, citas, tratamientos, medicamentos, facturación y pagos.
@@ -334,3 +335,6 @@ hospital_api/
     ├── facturas/
     └── pagos/
 ```
+=======
+# api_hospital_DJANGO
+SE CREA EL REPOSITORIO PARA EL API DE HOSPITAL
