@@ -116,9 +116,13 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # Usamos tu paginación personalizada aquí:
+    'DEFAULT_PAGINATION_CLASS': 'apps.pagination.DefaultPageNumberPagination',
     'PAGE_SIZE': config('PAGE_SIZE', default=10, cast=int),
+    
+    # Esto es lo que repara el error de Swagger:
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    
     'DEFAULT_FILTER_BACKENDS': [
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
@@ -159,3 +163,4 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
 }
+
