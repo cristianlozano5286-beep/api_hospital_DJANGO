@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
-
+from apps.utils.mixins import ExportExcelMixin
 from .models import Factura
 from .serializers import FacturaSerializer
 
@@ -14,8 +14,9 @@ from .serializers import FacturaSerializer
     update=extend_schema(summary='Actualizar factura', tags=['Facturas']),
     partial_update=extend_schema(summary='Actualizar parcialmente factura', tags=['Facturas']),
     destroy=extend_schema(summary='Anular factura', tags=['Facturas']),
+    exportar_excel=extend_schema(summary="Exportar a Excel", tags=['Facturas']),
 )
-class FacturaViewSet(viewsets.ModelViewSet):
+class FacturaViewSet(ExportExcelMixin, viewsets.ModelViewSet):
     serializer_class = FacturaSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['numero_factura', 'paciente__nombres', 'paciente__apellidos', 'estado']
