@@ -2,7 +2,8 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from apps.utils.mixins import ExportPDFMixin
+from apps.utils.mixins import ExportExcelMixin, CustomResponseMixin
+from apps.utils.mixins import ExportExcelMixin
 from .models import Cita
 from .serializers import CitaSerializer
 
@@ -14,10 +15,11 @@ from .serializers import CitaSerializer
     update=extend_schema(summary='Actualizar cita', tags=['Citas']),
     partial_update=extend_schema(summary='Actualizar parcialmente cita', tags=['Citas']),
     destroy=extend_schema(summary='Cancelar/desactivar cita', tags=['Citas']),
-    exportar_pdf=extend_schema(summary="Exportar a PDF", tags=['Citas']),
+    exportar_excel=extend_schema(summary="Exportar a Excel", tags=['Citas']),
 )
-class CitaViewSet(ExportPDFMixin, viewsets.ModelViewSet):
+class CitaViewSet(CustomResponseMixin, ExportExcelMixin, viewsets.ModelViewSet):
     serializer_class = CitaSerializer
+    queryset = Cita.objects.all()
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['paciente__nombres', 'paciente__apellidos', 'medico__nombres', 'estado']
     ordering_fields = ['fecha_hora', 'estado', 'fecha_creacion']
@@ -57,3 +59,8 @@ class CitaViewSet(ExportPDFMixin, viewsets.ModelViewSet):
         instance.estado = nuevo_estado
         instance.save(update_fields=['estado', 'fecha_modificacion'])
         return Response(CitaSerializer(instance).data)
+
+    @action(detail=True, methods=['get'], url_path='exportar_excel')
+    def exportar_excel(self, request, pk=None):
+        instance = self.get_object()
+        return self.exportar_excel_generico(instance, f"cita_{instance.id}")

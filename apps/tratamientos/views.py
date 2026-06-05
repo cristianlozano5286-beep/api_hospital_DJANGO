@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from .models import Tratamiento
 from .serializers import TratamientoSerializer
-from apps.utils.mixins import ExportPDFMixin
+from apps.utils.mixins import ExportExcelMixin
 
 
 @extend_schema_view(
@@ -13,9 +13,9 @@ from apps.utils.mixins import ExportPDFMixin
     update=extend_schema(summary='Actualizar tratamiento', tags=['Tratamientos']),
     partial_update=extend_schema(summary='Actualizar parcialmente tratamiento', tags=['Tratamientos']),
     destroy=extend_schema(summary='Desactivar tratamiento', tags=['Tratamientos']),
-    exportar_pdf=extend_schema(summary="Exportar a PDF", tags=['Tratamientos']),
+    exportar_excel=extend_schema(summary="Exportar a Excel", tags=['Tratamientos']),
 )
-class TratamientoViewSet(ExportPDFMixin, viewsets.ModelViewSet):
+class TratamientoViewSet(ExportExcelMixin, viewsets.ModelViewSet):
     serializer_class = TratamientoSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['medicamento__nombre_generico', 'cita__paciente__apellidos']

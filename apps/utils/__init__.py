@@ -1,1 +1,1 @@
-from .mixins import ExportPDFMixin
+from .mixins import ExportExcelMixin

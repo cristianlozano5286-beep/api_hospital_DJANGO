@@ -19,23 +19,23 @@ def api_root(request, format=None):
     })
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/v1/', admin.site.urls),
     
     # Rutas de API y Documentación
-    path('api/', api_root),
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/', api_root),
+    path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/v1/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/v1/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Rutas de las Apps (sin prefijo duplicado)
-    path('api/citas/', include('apps.citas.urls')),
-    path('api/especialidades/', include('apps.especialidades.urls')),
-    path('api/facturas/', include('apps.facturas.urls')),
-    path('api/medicamentos/', include('apps.medicamentos.urls')),
-    path('api/medicos/', include('apps.medicos.urls')),
-    path('api/pacientes/', include('apps.pacientes.urls')),
-    path('api/pagos/', include('apps.pagos.urls')),
-    path('api/tratamientos/', include('apps.tratamientos.urls')),
+    path('api/v1/citas/', include('apps.citas.urls')),
+    path('api/v1/especialidades/', include('apps.especialidades.urls')),
+    path('api/v1/facturas/', include('apps.facturas.urls')),
+    path('api/v1/medicamentos/', include('apps.medicamentos.urls')),
+    path('api/v1/medicos/', include('apps.medicos.urls')),
+    path('api/v1/pacientes/', include('apps.pacientes.urls')),
+    path('api/v1/pagos/', include('apps.pagos.urls')),
+    path('api/v1/tratamientos/', include('apps.tratamientos.urls')),
 ]
