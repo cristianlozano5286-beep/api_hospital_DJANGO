@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
-
+from apps.utils.mixins import ExportExcelMixin
 from .models import Medico
 from .serializers import MedicoSerializer
 
@@ -14,8 +14,9 @@ from .serializers import MedicoSerializer
     update=extend_schema(summary='Actualizar médico', tags=['Médicos']),
     partial_update=extend_schema(summary='Actualizar parcialmente médico', tags=['Médicos']),
     destroy=extend_schema(summary='Desactivar médico', tags=['Médicos']),
+    exportar_excel=extend_schema(summary="Exportar a Excel", tags=['Médicos']),
 )
-class MedicoViewSet(viewsets.ModelViewSet):
+class MedicoViewSet(ExportExcelMixin, viewsets.ModelViewSet):
     """CRUD completo para médicos del sistema hospitalario."""
 
     serializer_class = MedicoSerializer
